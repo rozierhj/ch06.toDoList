@@ -11,6 +11,7 @@ function generateTaskId() {
 
 // Todo: create a function to create a task card
 function createTaskCard(task) {
+    $('.task-card').draggable({revert:'valid'});
     let $newDiv = $('<div></div>',{
         'class':'dataCard',
     }).css({
@@ -41,6 +42,7 @@ function createTaskCard(task) {
         'background-color':'white',
         'boreder':'5px solid black'
     });
+    // $($newDiv).append($newTitle);
     $('#todo-cards').append($newDiv);
 }
 
@@ -66,37 +68,36 @@ function handleDrop(event, ui) {
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
+
+    //modal date field is now a date picker
+    $( "#datepicker" ).datepicker({
+        changeMonth: true,
+        changeYear: true
+    });
+
+    //cursor defaults left aligned in field input
+    const textarea = document.getElementById('text-area');
+    textarea.addEventListener('mousedown', function(event) {
+      event.preventDefault();
+      setTimeout(() => {
+        textarea.focus();
+        textarea.selectionStart = textarea.selectionEnd = 0;
+      }, 1);
+    });
+
     $('#modal-button').on('click',function(event){
-        createTaskCard(event);
-        $('#formModal').dispose();
+        // $('#formModal').dispose();
         let myModal = new bootstrap.Modal(document.getElementById('formModal'),function(){
-            console.log(myModal),   
-            myModal.dispose()
-                
+            console.log(getElementById('task-title').value),   
+            myModal.dispose() 
         });
     });
-});
 
-//for model date
-$( function() {
-    $( "#datepicker" ).datepicker({
-      changeMonth: true,
-      changeYear: true
-    });
-  } );
-
-  $(document).ready(function() {
     $('.form-control').on('input', function() {
 
         document.querySelector('.spinner-border').style.animation = 'none';
 
     });
-  });
-  const textarea = document.getElementById('text-area');
-  textarea.addEventListener('mousedown', function(event) {
-    event.preventDefault();
-    setTimeout(() => {
-      textarea.focus();
-      textarea.selectionStart = textarea.selectionEnd = 0;
-    }, 1);
-  });
+
+
+});
