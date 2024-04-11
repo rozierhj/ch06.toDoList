@@ -3,47 +3,15 @@ let taskList = JSON.parse(localStorage.getItem("tasks"));
 let nextId = JSON.parse(localStorage.getItem("nextId"));
 
 // Todo: create a function to generate a unique task id
+//this will be how we store the data in local storage
 function generateTaskId() {
-    let suffix = taskList.length;
-    taskId = 'task'+suffix;
-    return taskId;
+
 }
 
 // Todo: create a function to create a task card
+//this be
 function createTaskCard(task) {
-    $('.task-card').draggable({revert:'valid'});
-    let $newDiv = $('<div></div>',{
-        'class':'dataCard',
-    }).css({
-        'height':'50px',
-        'width':'50px',
-        'padding':'10px',
-        'background-color':'red',
-        'boreder':'5px solid black'
-    });
-    let $newTitle = $('<h2></h2>',{
-        'class':'dataCard',
-    }).css({
-        'padding':'10px',
-        'background-color':'white',
-        'boreder':'5px solid black'
-    });
-    let $newDate = $('<p></p>',{
-        'class':'dataCard',
-    }).css({
-        'padding':'10px',
-        'background-color':'white',
-        'boreder':'5px solid black'
-    });
-    let newText = $('<p></p>',{
-        'class':'dataCard',
-    }).css({
-        'padding':'10px',
-        'background-color':'white',
-        'boreder':'5px solid black'
-    });
-    // $($newDiv).append($newTitle);
-    $('#todo-cards').append($newDiv);
+
 }
 
 // Todo: create a function to render the task list and make cards draggable
@@ -63,41 +31,35 @@ function handleDeleteTask(event){
 
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
+//update state
+
+     
+
+   
 
 }
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
+//were gathering data from the modal here
 $(document).ready(function () {
 
-    //modal date field is now a date picker
-    $( "#datepicker" ).datepicker({
-        changeMonth: true,
-        changeYear: true
-    });
 
-    //cursor defaults left aligned in field input
-    const textarea = document.getElementById('text-area');
-    textarea.addEventListener('mousedown', function(event) {
-      event.preventDefault();
-      setTimeout(() => {
-        textarea.focus();
-        textarea.selectionStart = textarea.selectionEnd = 0;
-      }, 1);
-    });
+    //modal date picker function
+    $( function() {
+        $( "#datepicker" ).datepicker();
+      } );
 
-    $('#modal-button').on('click',function(event){
-        // $('#formModal').dispose();
-        let myModal = new bootstrap.Modal(document.getElementById('formModal'),function(){
-            console.log(getElementById('task-title').value),   
-            myModal.dispose() 
+    //make draggable and droppable
+
+    $( function() {
+        $( "#todo-cards, #in-progress-cards" ).sortable({
+           connectWith:'.for-sort',
+           receive: function(event, ui){
+            ui.item.css('background-color','lightgreen');
+           }  
         });
-    });
-
-    $('.form-control').on('input', function() {
-
-        document.querySelector('.spinner-border').style.animation = 'none';
-
-    });
-
+        ;
+      } );
 
 });
+
