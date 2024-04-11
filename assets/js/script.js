@@ -55,11 +55,23 @@ $(document).ready(function () {
         $( "#todo-cards, #in-progress-cards" ).sortable({
            connectWith:'.for-sort',
            receive: function(event, ui){
-            ui.item.css('background-color','lightgreen');
+                let $child = $(ui.item);
+                let $parent = $child.parent();
+                if($parent.attr('id') === 'todo-cards'){
+                    $child.css('background-color','red');
+                }else{
+                    $child.css('background-color','green');
+                }
+                console.log($parent.attr('id'));
+            // ui.item.css('background-color','lightgreen');
            }  
         });
         ;
-      } );
+      } );     
+
+
+
+
 
 });
 
