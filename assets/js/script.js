@@ -51,27 +51,52 @@ $(document).ready(function () {
 
     //make draggable and droppable
 
-    $( function() {
-        $( "#todo-cards, #in-progress-cards" ).sortable({
-           connectWith:'.for-sort',
-           receive: function(event, ui){
-                let $child = $(ui.item);
-                let $parent = $child.parent();
-                if($parent.attr('id') === 'todo-cards'){
-                    $child.css('background-color','red');
-                }else{
-                    $child.css('background-color','green');
-                }
-                console.log($parent.attr('id'));
-            // ui.item.css('background-color','lightgreen');
-           }  
-        });
-        ;
-      } );     
+
+        
+
+        // $( function() {
+        //     $( "#draggable, #draggable-nonvalid" ).draggable();
+        //     $( "#droppable" ).droppable({
+        //       accept: "#draggable",
+        //       classes: {
+        //         "ui-droppable-active": "ui-state-active",
+        //         "ui-droppable-hover": "ui-state-hover"
+        //       },
+        //       drop: function( event, ui ) {
+        //         $( this )
+        //           .addClass( "ui-state-highlight" )
+        //           .find( "p" )
+        //             .html( "Dropped!" );
+        //       }
+
+        //     })
 
 
+   
 
+        // });
+        $( function() {
+            $( "#draggable").draggable();
+            // $( "#draggable" ).draggable({ revert: "valid" });
+         
+            $( "#droppable" ).css('postion','absolute').css('background-color','red').sortable().droppable({
+              accept: "#draggable",
+              classes: {
+                "ui-droppable-active": "ui-state-active",
+                "ui-droppable-hover": "ui-state-hover"
+              },
+              drop: function( event, ui ) {
+                $( this )
+                  .addClass( "ui-state-highlight" )
+                  .find( "p" )
+                    .html( "Dropped!" );
+              }
+            });
+            // $('#droppable').css('postion','absolute');
+            $("#draggable").css('position','relative').mouseup(function(){
 
+            });
+          } );
 
 });
 

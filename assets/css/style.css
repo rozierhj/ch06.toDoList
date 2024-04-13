@@ -17,10 +17,3 @@ body {
   .my-class{
     text-align: left!important;
   }
-  #todo-cards { list-style-type: none; margin: 0; padding: 0; width: 60%; }
-  #todo-cards li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
-  #todo-cards li span { position: absolute; margin-left: -1.3em; }
-
-  #in-progress-cards{ list-style-type: none; margin: 0; padding: 0; width: 60%; }
-  #in-progress-cards li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
-  #in-progress-cards li span { position: absolute; margin-left: -1.3em; }
