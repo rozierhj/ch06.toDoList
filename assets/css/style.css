@@ -17,3 +17,11 @@ body {
   .my-class{
     text-align: left!important;
   }
+
+  #draggable, #draggable2 { width: 100px; height: 100px; padding: 0.5em; float: left; margin: 10px 10px 10px 0; }
+
+  #todo-cards, #in-progress-cards, #done-cards{
+
+    width: 300px; height: 500px; padding: 0.5em; float: left; margin: 10px 10px 10px 0;
+
+  }

@@ -49,54 +49,30 @@ $(document).ready(function () {
         $( "#datepicker" ).datepicker();
       } );
 
-    //make draggable and droppable
+//accept
 
 
-        
-
-        // $( function() {
-        //     $( "#draggable, #draggable-nonvalid" ).draggable();
-        //     $( "#droppable" ).droppable({
-        //       accept: "#draggable",
-        //       classes: {
-        //         "ui-droppable-active": "ui-state-active",
-        //         "ui-droppable-hover": "ui-state-hover"
-        //       },
-        //       drop: function( event, ui ) {
-        //         $( this )
-        //           .addClass( "ui-state-highlight" )
-        //           .find( "p" )
-        //             .html( "Dropped!" );
-        //       }
-
-        //     })
+//revert
 
 
-   
+//sort
+$( function() {
+  $( "#draggable" ).draggable({ revert: "valid" });
+  $( "#draggable2" ).draggable({ revert: "invalid" });
 
-        // });
-        $( function() {
-            $( "#draggable").draggable();
-            // $( "#draggable" ).draggable({ revert: "valid" });
-         
-            $( "#droppable" ).css('postion','absolute').css('background-color','red').sortable().droppable({
-              accept: "#draggable",
-              classes: {
-                "ui-droppable-active": "ui-state-active",
-                "ui-droppable-hover": "ui-state-hover"
-              },
-              drop: function( event, ui ) {
-                $( this )
-                  .addClass( "ui-state-highlight" )
-                  .find( "p" )
-                    .html( "Dropped!" );
-              }
-            });
-            // $('#droppable').css('postion','absolute');
-            $("#draggable").css('position','relative').mouseup(function(){
-
-            });
-          } );
+  $( "#todo-cards, #in-progress-cards, #done-cards" ).droppable({
+    classes: {
+      "ui-droppable-active": "ui-state-active",
+      "ui-droppable-hover": "ui-state-hover"
+    },
+    drop: function( event, ui ) {
+      $( this )
+        .addClass( "ui-state-highlight" )
+        .find( "p" )
+          .html( "Dropped!" );
+    }
+  });
+} );
 
 });
 
