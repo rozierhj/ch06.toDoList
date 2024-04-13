@@ -9,8 +9,40 @@ function generateTaskId() {
 }
 
 // Todo: create a function to create a task card
-//this be
-function createTaskCard(task) {
+//this 
+//createTaskCard(task)
+function createTaskCard() {
+
+    let taskCard = $('<div></div>');
+    taskCard.addClass('tCard');
+    taskCard.text('Hello, World!');
+    let removeButton = $('<button></button>');
+    removeButton.addClass('remove-button');
+    removeButton.text('remove');
+    taskCard.append(removeButton);
+    $('#todo-cards').append(taskCard);
+
+    $('.tCard').css({
+
+      'position':'relative',
+      'color': 'lightgrey',
+      'background-color' : 'blue',
+      'padding':'10px',
+      'text-align':'center',
+      'width':'100%',
+      'height':'200px'
+    });
+
+    $('.remove-button').css({
+
+      'position':'absolute',
+      'color': 'lightgrey',
+      'background-color' : 'red',
+      'padding':'10px',
+      'text-align':'center',
+      'width':'50px',
+      'height':'50px'
+    });
 
 }
 
@@ -49,8 +81,13 @@ $(document).ready(function () {
         $( "#datepicker" ).datepicker();
       } );
 
-//accept
+      $(function(){
 
+      })
+//accept
+      $('#add-task').click(function(){
+        createTaskCard();
+      });
 
 //revert
 
