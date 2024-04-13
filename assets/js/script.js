@@ -5,44 +5,63 @@ let nextId = JSON.parse(localStorage.getItem("nextId"));
 // Todo: create a function to generate a unique task id
 //this will be how we store the data in local storage
 function generateTaskId() {
+ 
+  let randomNum = Math.floor(Math.random()*1000000000)+1;
+  console.log(randomNum);
 
+ return randomNum;
 }
 
 // Todo: create a function to create a task card
 //this 
-//createTaskCard(task)
-function createTaskCard() {
 
-    let taskCard = $('<div></div>');
-    taskCard.addClass('tCard');
-    taskCard.text('Hello, World!');
-    let removeButton = $('<button></button>');
-    removeButton.addClass('remove-button');
-    removeButton.text('remove');
-    taskCard.append(removeButton);
-    $('#todo-cards').append(taskCard);
+function createTaskCard(task) {
 
-    $('.tCard').css({
+  let taskCard = $('<div></div>');
+  taskCard.addClass('tCard');
+  taskCard.attr('id','chicken');
+  let taskTitle = $('<h3></h3>');
+  taskTitle.text(task.title);
+  let taskDate = $('<date></date>');
+  taskDate.text(task.date);
+  let taskDescription = $('<p></p>');
+  taskDescription.text(task.description);
+  let removeButton = $('<button></button>');
+  removeButton.addClass('remove-button ui-button ui-widget ui-corner-all');
+  removeButton.attr('id','nuke');
+  removeButton.text('remove');
 
-      'position':'relative',
-      'color': 'lightgrey',
-      'background-color' : 'blue',
-      'padding':'10px',
-      'text-align':'center',
-      'width':'100%',
-      'height':'200px'
-    });
+  taskCard.append(taskTitle);
+  taskCard.append(taskDate);
+  taskCard.append(taskDescription);
+  taskCard.append(removeButton);
 
-    $('.remove-button').css({
+  $('#todo-cards').append(taskCard);
 
-      'position':'absolute',
-      'color': 'lightgrey',
-      'background-color' : 'red',
-      'padding':'10px',
-      'text-align':'center',
-      'width':'50px',
-      'height':'50px'
-    });
+  $('.tCard').css({
+
+    'position':'relative',
+    'display':'flex',
+    'flex-direction':'column',
+    'align-items':'center',
+    'justify-content':'center',
+    'color': 'lightgrey',
+    'background-color' : 'blue',
+    'padding':'10px',
+    'text-align':'center',
+    'width':'100%',
+    'height':'200px'
+  });
+
+  $('.remove-button').css({
+
+    'color': 'lightgrey',
+    'background-color' : 'red',
+    'padding':'10px',
+    'text-align':'center',
+    'width':'100px',
+    'height':'50px',
+  });
 
 }
 
@@ -54,11 +73,25 @@ function renderTaskList() {
 // Todo: create a function to handle adding a new task
 function handleAddTask(event){
 
+    let taskDetail = {
+      title: '',
+      date: '',
+      description: '',
+      taskID: ''
+      };
+
+    taskDetail.title = 'New Title';
+    taskDetail.date = new Date().toLocaleDateString('en-US');
+    taskDetail.description = 'This is a task description';
+    taskDetail.taskID = generateTaskId();
+
+      return taskDetail;
 }
 
 // Todo: create a function to handle deleting a task
+//function handleDeleteTask(event)
 function handleDeleteTask(event){
-
+    $('#chicken').remove();
 }
 
 // Todo: create a function to handle dropping a task into a new status lane
@@ -80,36 +113,40 @@ $(document).ready(function () {
     $( function() {
         $( "#datepicker" ).datepicker();
       } );
-
-      $(function(){
-
-      })
 //accept
-      $('#add-task').click(function(){
-        createTaskCard();
+
+      $('#add-task').click(function(event){
+     
+        event.preventDefault();
+       let answer = handleAddTask();
+        console.log(answer);
+        createTaskCard(answer);
+      });
+      $('#todo-cards').on('click', '#nuke', function(event){
+         handleDeleteTask(event);
       });
 
 //revert
 
 
 //sort
-$( function() {
-  $( "#draggable" ).draggable({ revert: "valid" });
-  $( "#draggable2" ).draggable({ revert: "invalid" });
+// $( function() {
+//   $( "#draggable" ).draggable({ revert: "valid" });
+//   $( "#draggable2" ).draggable({ revert: "invalid" });
 
-  $( "#todo-cards, #in-progress-cards, #done-cards" ).droppable({
-    classes: {
-      "ui-droppable-active": "ui-state-active",
-      "ui-droppable-hover": "ui-state-hover"
-    },
-    drop: function( event, ui ) {
-      $( this )
-        .addClass( "ui-state-highlight" )
-        .find( "p" )
-          .html( "Dropped!" );
-    }
-  });
-} );
+//   $( "#todo-cards, #in-progress-cards, #done-cards" ).droppable({
+//     classes: {
+//       "ui-droppable-active": "ui-state-active",
+//       "ui-droppable-hover": "ui-state-hover"
+//     },
+//     drop: function( event, ui ) {
+//       $( this )
+//         .addClass( "ui-state-highlight" )
+//         .find( "p" )
+//           .html( "Dropped!" );
+//     }
+//   });
+// } );
 
 });
 
