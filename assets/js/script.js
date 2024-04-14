@@ -68,6 +68,7 @@ function createTaskCard(task) {
 function renderTaskList() {
 
 
+
 //load existing cards to page
 let renderList = JSON.parse(localStorage.getItem("tasks"));
 
@@ -77,7 +78,7 @@ if(renderList !== null){
 
       createTaskCard(renderList);
       $('.tCard').css('z-index',100);
-      $('.tCard').draggable();
+      $('.tCard').sortable();
   }
 }
 
@@ -207,25 +208,11 @@ $( function() {
   });
 } );
 
-$('.tCard').draggable({
-
-  start: function(event, ui) {
-    // Event triggered when dragging starts
-    console.log("Dragging started");
-    // Additional code for what happens when dragging starts
-},
-drag: function(event, ui) {
-    // Event triggered during dragging
-    console.log("Dragging at (" + ui.position.left + ", " + ui.position.top + ")");
-    // Additional code for what happens during dragging
-},
-stop: function(event, ui) {
-    // Event triggered when dragging stops
-    console.log("Dragging stopped");
-    // Additional code for what happens when dragging stops
-}
-
-});
+$( function() {
+  $( "#todo-cards, #in-progress-cards" ).sortable({
+    connectWith: ".test"
+  }).disableSelection();
+} );
 
 
 const clearButton = document.getElementById('clear-button');
