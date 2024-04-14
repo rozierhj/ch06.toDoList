@@ -192,6 +192,10 @@ $(document).ready(function () {
 renderTaskList();
 
 $( function() {
+  $('#todo-cards').addClass('card-sort');
+  $('#in-progress-cards').addClass('card-sort');
+  $('#done-cards').addClass('card-sort');
+
   $( "#todo-cards #in-progress-cards #done-cards" ).css('z-index',1);
   $( "#todo-cards #in-progress-cards #done-cards" ).droppable({
     accept: ".tCard",
@@ -209,8 +213,8 @@ $( function() {
 } );
 
 $( function() {
-  $( "#todo-cards, #in-progress-cards" ).sortable({
-    connectWith: ".test"
+  $( "#todo-cards, #in-progress-cards, #done-cards" ).sortable({
+    connectWith: ".card-sort"
   }).disableSelection();
 } );
 
