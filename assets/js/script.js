@@ -72,6 +72,9 @@ function renderTaskList() {
 
 // Todo: create a function to handle adding a new task
 function handleAddTask(event){
+  console.log('here');
+
+  event.preventDefault();
 
     let taskDetail = {
       title: '',
@@ -80,9 +83,9 @@ function handleAddTask(event){
       taskID: ''
       };
 
-    taskDetail.title = 'New Title';
-    taskDetail.date = new Date().toLocaleDateString('en-US');
-    taskDetail.description = 'This is a task description';
+    taskDetail.title = $('#task-title').val();
+    taskDetail.date = $('#datepicker').val();
+    taskDetail.description = $('#exampleFormControlTextarea1').val();
     taskDetail.taskID = generateTaskId();
 
       return taskDetail;
@@ -117,10 +120,10 @@ $(document).ready(function () {
 
       $('#add-task').click(function(event){
      
-        event.preventDefault();
-       let answer = handleAddTask();
-        console.log(answer);
+        // alert('go dogs go');
+       let answer = handleAddTask(event);
         createTaskCard(answer);
+
       });
       $('#todo-cards').on('click', '#nuke', function(event){
          handleDeleteTask(event);
