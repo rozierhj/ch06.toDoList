@@ -15,7 +15,7 @@ function createTaskCard(task) {
 
 
       let taskCard = $('<div></div>');
-      taskCard.addClass('tCard ui-widget-content');
+      taskCard.addClass('tCard ui-widget-content ui-state-default');
       // taskCard.attr('id','chicken');
       taskCard.attr('id', String(task[i].taskID));
       let taskTitle = $('<h3></h3>');
@@ -207,11 +207,26 @@ $( function() {
   });
 } );
 
-$( function() {
-  $( "#todo-cards, #in-progress-cards, #done-cards" ).sortable({
-    connectWith: ".test"
-  }).disableSelection();
-} );
+$('.tCard').draggable({
+
+  start: function(event, ui) {
+    // Event triggered when dragging starts
+    console.log("Dragging started");
+    // Additional code for what happens when dragging starts
+},
+drag: function(event, ui) {
+    // Event triggered during dragging
+    console.log("Dragging at (" + ui.position.left + ", " + ui.position.top + ")");
+    // Additional code for what happens during dragging
+},
+stop: function(event, ui) {
+    // Event triggered when dragging stops
+    console.log("Dragging stopped");
+    // Additional code for what happens when dragging stops
+}
+
+});
+
 
 const clearButton = document.getElementById('clear-button');
 clearButton.addEventListener('click', function(){
