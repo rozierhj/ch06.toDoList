@@ -34,9 +34,11 @@ function createTaskCard(task) {
       taskCard.append(taskDescription);
       taskCard.append(removeButton);
 
-      console.log(task[i].parent);
+      
+      let parentID = '#'+ task[i].parent
+      console.log('the parent - ',parentID);
 
-      $(task[i].parent).append(taskCard);
+      $(parentID).append(taskCard);
     
       $('.tCard').css({
     
@@ -80,7 +82,7 @@ if(renderList !== null){
 
       createTaskCard(renderList);
       $('.tCard').css('z-index',100);
-      $('.tCard').sortable();
+     // $('.tCard').sortable();
   }
 }
 
@@ -88,7 +90,7 @@ if(renderList !== null){
 
 // Todo: create a function to handle adding a new task
 function handleAddTask(event){
-  console.log('here');
+  // console.log('here');
 
   event.preventDefault();
 
@@ -99,7 +101,7 @@ function handleAddTask(event){
     taskDetail.title = $('#task-title').val();
     taskDetail.date = $('#datepicker').val();
     taskDetail.description = $('#exampleFormControlTextarea1').val();
-    taskDetail.parent = '#todo-cards';
+    taskDetail.parent = 'todo-cards';
     taskDetail.taskID = generateTaskId();
 
     let matchTaskID = taskDetail.taskID;
@@ -117,7 +119,7 @@ function handleAddTask(event){
       }
        
         window.location.href='index.html';
-        console.log(taskDetail);
+        // console.log(taskDetail);
 
       return taskDetail;
 }
@@ -130,22 +132,22 @@ function handleDeleteTask(event,cardID){
     for(let i =0; i < taskList.length; i++){
       if(String(taskList[i].taskID) === String(cardID)){
         taskIndex = i;
-        console.log('we are in');
+        // console.log('we are in');
       }
     }
     taskList.splice(taskIndex,1);
-    localStorage.removeItem('tasks');
+    // localStorage.removeItem('tasks');
     localStorage.setItem('tasks', JSON.stringify(taskList));
 
     let nextidIndex = 0;
     for(let i =0; i < nextId.length; i++){
       if(String(nextId[i]) === String(cardID)){
         nextidIndex = i;
-        console.log('we are in');
+        // console.log('we are in');
       }
     }
     nextId.splice(nextidIndex,1);
-    localStorage.removeItem('nextId');
+    // localStorage.removeItem('nextId');
     localStorage.setItem('nextId', JSON.stringify(nextId));
    
 }
@@ -154,9 +156,17 @@ function handleDeleteTask(event,cardID){
 function handleDrop(event, ui) {
 //update state
 
-     
 
-   
+let elementId = ui.item.parent().attr('id');
+let card_id = ui.item.attr('id');
+ui.item.parent = elementId;
+
+// console.log(elementId);
+let taskMoved = taskList.find(taskDetail => String(taskDetail.taskID) === card_id);
+
+taskMoved.parent = elementId;
+localStorage.setItem('tasks', JSON.stringify(taskList));
+
 
 }
 
@@ -216,17 +226,6 @@ $( function() {
 } );
 
 
-$(function(){
-
-  $('.tCard').sortable({
-
-
-
-}).disableSelection();
-
-});
-
-
 $( function() {
   $( "#todo-cards, #in-progress-cards, #done-cards" ).sortable({
     connectWith: ".card-sort", 
@@ -243,18 +242,7 @@ $( function() {
     },
     stop: function(event, ui) {
 
-      let elementId = ui.item.parent().attr('id');
-      let card_id = ui.item.attr('id');
-      ui.item.parent = elementId;
-
-      console.log(elementId);
-      let taskMoved = taskList.find(taskDetail => String(taskDetail.taskID) === card_id);
-
-      taskMoved.parent = elementId;
-
-      // 'this' refers to the DOM element involved in the event
-      console.log("The ID of the dragged element is:", ui.item.parent);
-      console.log(taskList[0].taskID, " ", taskList[0].parent);
+      handleDrop(event, ui);
 
     }
 
