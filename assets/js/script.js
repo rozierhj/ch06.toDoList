@@ -247,9 +247,14 @@ $( function() {
       let card_id = ui.item.attr('id');
       ui.item.parent = elementId;
 
+      console.log(elementId);
+      let taskMoved = taskList.find(taskDetail => String(taskDetail.taskID) === card_id);
+
+      taskMoved.parent = elementId;
+
       // 'this' refers to the DOM element involved in the event
       console.log("The ID of the dragged element is:", ui.item.parent);
-      console.log(taskList[0].taskID, " ", card_id);
+      console.log(taskList[0].taskID, " ", taskList[0].parent);
 
     }
 
