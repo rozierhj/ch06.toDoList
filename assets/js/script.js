@@ -241,6 +241,41 @@ $( function() {
   }).disableSelection();
 });
 
+//modal style
+$( function(){
+
+  $('#form-title, #form-date ').css({
+    'width':'80%',
+    'margin-top':'20px',
+    'margin-bottm':'5px',
+    'margin-left':'5px',
+    'margin-right':'5px',
+    'height':'20px'
+  });
+
+  $(' #task-title,  #datepicker ').css({
+    'width':'80%',
+    'margin-left':'5px',
+    'margin-right':'5px',
+    'height':'40px'
+  });
+
+  $(' #task-description').css({
+    'width':'100%',
+    'margin-left':'5px',
+    'margin-right':'5px',
+  });
+  $(' #bottom-row').css({
+    'width':'100%',
+  });
+  $(' #exampleFormControlTextarea1').css({
+    'width':'100%',
+    'margin-left':'10px',
+    'margin-right':'5px',
+  });
+
+});
+
 } );
 
 function cardStyle(card){
@@ -249,24 +284,44 @@ function cardStyle(card){
   let column = card.parent;
   let cardDate = card.date;
   let formatDate = dayjs(card.date).format('YYYY-MM-DD');
+  let headerFooter = '#'+String(card.taskID) + ' .card-header, ' + '#'+String(card.taskID) + ' .card-footer';
+  let cardBody = '#'+String(card.taskID) + ' .card-body';
 
   if(dayjs().isAfter(dayjs(formatDate),'day') === true && card.parent !== 'done-cards' ){
 
-      let headerFooter = '#'+String(card.taskID) + ' .card-header, ' + '#'+String(card.taskID) + ' .card-footer';
     $(headerFooter).css({
       'background-color':'red',
+      'color':'white'
     });
+
+    $(cardBody).css({
+      'background-color':'rgb(255,204,204)',
+    });
+    $('.remove-button').css({
+        'background-color':'red',
+        'color':'white'
+    });
+
   }
   else if(dayjs().isSame(dayjs(formatDate),'day') === true && card.parent !== 'done-cards' ){
 
-    $('#'+String(card.taskID)).css({
-        'background-color':'yellow'
+    $(headerFooter).css({
+      'background-color':'yellow',
     });
 
-}else{
- 
-    $('#'+String(card.taskID)).attr('style','');
+    $(cardBody).css({
+      'background-color':'rgb(255,255,153)',
+    });
 
+
+}
+else{
+ 
+    $(headerFooter).attr('style','');
+    $(cardBody).attr('style','');
+    $(cardBody).css({
+      'background-color':'white',
+    });
 
 }
 $('.tCard').css({
@@ -278,16 +333,25 @@ $('.tCard').css({
 $('.card-body').css({
   'position':'relative',
   'display':'flex',
-  'flex-direction':'column'
+  'flex-direction':'column',
+  'justify-content':'center'
 });
 
 $('.remove-button').css({
 
-  'margin-top':'20px'   
+  'position':'relative',
+  'left':'50%',
+  'transform':'translate(-50%, -50%)',
+  'top':'25px',
+  // 'margin-top':'30px',
+  'width':'100px'  
 });
 
 $('.card-header').css({
-  'height':'40px'
+  'height':'40px',
+  'font-weight':'bold',
+  'font-size':'20px',
+
 });
 $('.card-header.bg-white').css({
   'height':'55px'
