@@ -13,23 +13,6 @@ function generateTaskId() {
 // Todo: create a function to create a task card
 function createTaskCard(task) {
 
-/*
-  <div class="card text-center">
-  <div class="card-header">
-    Featured
-  </div>
-  <div class="card-body">
-    <h5 class="card-title">Special title treatment</h5>
-    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-  <div class="card-footer text-muted">
-    2 days ago
-  </div>
-</div>
-*/
-
-
 let taskCard = $('<div></div>');
 taskCard.addClass('tCard ui-widget-content ui-state-default card text-center');
 taskCard.attr('id', String(task[i].taskID));
@@ -70,36 +53,14 @@ taskCard.append(taskFooter);
       console.log('the parent - ',parentID);
 
       $(parentID).append(taskCard);
-    
-      $('.tCard').css({
-    
-        'margin':'15px'
-        
-      });
 
-      $('.card-body').css({
-        'position':'relative',
-        'display':'flex',
-        'flex-direction':'column'
-      });
-    
-      $('.remove-button').css({
-    
-        'margin-top':'20px'
-        
-      });
-
-      $('.card-header').css({
-        'height':'40px'
-      });
-
+      console.log(task);
+      cardStyle(task);
 
 }
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
-
-
 
 //load existing cards to page
 let renderList = JSON.parse(localStorage.getItem("tasks"));
@@ -110,6 +71,7 @@ if(renderList !== null){
 
       createTaskCard(renderList);
       $('.tCard').css('z-index',100);
+      cardStyle(renderList[i]);
      // $('.tCard').sortable();
   }
 }
@@ -184,15 +146,17 @@ function handleDeleteTask(event,cardID){
 function handleDrop(event, ui) {
 //update state
 
-
 let elementId = ui.item.parent().attr('id');
 let card_id = ui.item.attr('id');
 ui.item.parent = elementId;
 
-// console.log(elementId);
+ console.log(elementId);
 let taskMoved = taskList.find(taskDetail => String(taskDetail.taskID) === card_id);
 
+//turn cards colors
+
 taskMoved.parent = elementId;
+cardStyle(taskMoved);
 localStorage.setItem('tasks', JSON.stringify(taskList));
 
 
@@ -202,14 +166,11 @@ localStorage.setItem('tasks', JSON.stringify(taskList));
 //were gathering data from the modal here
 $(document).ready(function () {
 
-  let dateStuff = dayjs('01/10/1995').format('YYYY-MM-DD');
-  console.log(dateStuff);
-
+  $( "#todo-cards, #in-progress-cards, #done-cards" ).css({'z-index':1,'height':'100%'});
     //modal date picker function
     $( function() {
         $( "#datepicker" ).datepicker();
       } );
-
       //click on submit button on modal to add a task
       $('#add-task').click(function(event){
         event.preventDefault();
@@ -282,6 +243,59 @@ $( function() {
 
 } );
 
+function cardStyle(card){
+
+  $( "#todo-cards #in-progress-cards #done-cards" ).css({'z-index':1,'height':'100%'});
+  let column = card.parent;
+  let cardDate = card.date;
+  let formatDate = dayjs(card.date).format('YYYY-MM-DD');
+
+  if(dayjs().isAfter(dayjs(formatDate),'day') === true && card.parent !== 'done-cards' ){
+
+      let headerFooter = '#'+String(card.taskID) + ' .card-header, ' + '#'+String(card.taskID) + ' .card-footer';
+    $(headerFooter).css({
+      'background-color':'red',
+    });
+  }
+  else if(dayjs().isSame(dayjs(formatDate),'day') === true && card.parent !== 'done-cards' ){
+
+    $('#'+String(card.taskID)).css({
+        'background-color':'yellow'
+    });
+
+}else{
+ 
+    $('#'+String(card.taskID)).attr('style','');
+
+
+}
+$('.tCard').css({
+    
+  'margin':'15px'
+  
+});
+
+$('.card-body').css({
+  'position':'relative',
+  'display':'flex',
+  'flex-direction':'column'
+});
+
+$('.remove-button').css({
+
+  'margin-top':'20px'   
+});
+
+$('.card-header').css({
+  'height':'40px'
+});
+$('.card-header.bg-white').css({
+  'height':'55px'
+});
+
+
+
+}
 
 const clearButton = document.getElementById('clear-button');
 clearButton.addEventListener('click', function(){
