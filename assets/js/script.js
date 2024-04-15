@@ -13,26 +13,57 @@ function generateTaskId() {
 // Todo: create a function to create a task card
 function createTaskCard(task) {
 
+/*
+  <div class="card text-center">
+  <div class="card-header">
+    Featured
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Special title treatment</h5>
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+  <div class="card-footer text-muted">
+    2 days ago
+  </div>
+</div>
+*/
 
-      let taskCard = $('<div></div>');
-      taskCard.addClass('tCard ui-widget-content ui-state-default');
-      // taskCard.attr('id','chicken');
-      taskCard.attr('id', String(task[i].taskID));
-      let taskTitle = $('<h3></h3>');
-      taskTitle.text(task[i].title);
-      let taskDate = $('<date></date>');
-      taskDate.text(task[i].date);
-      let taskDescription = $('<p></p>');
-      taskDescription.text(task[i].description);
-      let removeButton = $('<button></button>');
-      removeButton.addClass('remove-button ui-button ui-widget ui-corner-all');
-      removeButton.attr('id','nuke');
-      removeButton.text('remove');
-    
-      taskCard.append(taskTitle);
-      taskCard.append(taskDate);
-      taskCard.append(taskDescription);
-      taskCard.append(removeButton);
+
+let taskCard = $('<div></div>');
+taskCard.addClass('tCard ui-widget-content ui-state-default card text-center');
+taskCard.attr('id', String(task[i].taskID));
+
+let taskTitle = $('<div></div>');
+taskTitle.addClass('card-header');
+taskTitle.text(task[i].title);
+
+let cardBody = $('<div></div>');
+cardBody.addClass('card-body');
+
+let taskDate = $('<date></date>');
+taskDate.text(task[i].date);
+
+let taskDescription = $('<p></p>');
+taskDescription.addClass('card-text');
+taskDescription.text(task[i].description);
+
+let taskFooter = $('<div></div>');
+taskFooter.addClass('card-footer text-muted');
+
+let removeButton = $('<button></button>');
+removeButton.addClass('remove-button ui-button ui-widget ui-corner-all btn btn-primary');
+removeButton.attr('id','nuke');
+removeButton.text('remove');
+
+
+cardBody.append(taskDescription);
+cardBody.append(taskDate);
+cardBody.append(removeButton);
+
+taskCard.append(taskTitle);
+taskCard.append(cardBody);
+taskCard.append(taskFooter);
 
       
       let parentID = '#'+ task[i].parent
@@ -42,27 +73,24 @@ function createTaskCard(task) {
     
       $('.tCard').css({
     
+        'margin':'15px'
+        
+      });
+
+      $('.card-body').css({
         'position':'relative',
         'display':'flex',
-        'flex-direction':'column',
-        'align-items':'center',
-        'justify-content':'center',
-        'color': 'lightgrey',
-        'background-color' : 'blue',
-        'padding':'10px',
-        'text-align':'center',
-        'width':'100%',
-        'height':'200px'
+        'flex-direction':'column'
       });
     
       $('.remove-button').css({
     
-        'color': 'lightgrey',
-        'background-color' : 'red',
-        'padding':'10px',
-        'text-align':'center',
-        'width':'100px',
-        'height':'50px',
+        'margin-top':'20px'
+        
+      });
+
+      $('.card-header').css({
+        'height':'40px'
       });
 
 
@@ -174,6 +202,9 @@ localStorage.setItem('tasks', JSON.stringify(taskList));
 //were gathering data from the modal here
 $(document).ready(function () {
 
+  let dateStuff = dayjs('01/10/1995').format('YYYY-MM-DD');
+  console.log(dateStuff);
+
     //modal date picker function
     $( function() {
         $( "#datepicker" ).datepicker();
@@ -190,7 +221,7 @@ $(document).ready(function () {
       //listen for click on parent todo-cards to delete the child task card
       $('.card-body').on('click', '#nuke', function(event){
          //handleDeleteTask(event);
-         let card = $(this).parent();
+         let card = $(this).parent().parent();
          let cardID = card.attr('id');
         //  console.log(cardID);
          handleDeleteTask(event,cardID);
@@ -209,7 +240,7 @@ $( function() {
   $('#in-progress-cards').addClass('card-sort');
   $('#done-cards').addClass('card-sort');
 
-  $( "#todo-cards #in-progress-cards #done-cards" ).css('z-index',1);
+  $( "#todo-cards #in-progress-cards #done-cards" ).css({'z-index':1,'height':'100%'});
   $( "#todo-cards #in-progress-cards #done-cards" ).droppable({
     accept: ".tCard",
     classes: {
