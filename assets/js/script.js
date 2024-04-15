@@ -33,8 +33,10 @@ function createTaskCard(task) {
       taskCard.append(taskDate);
       taskCard.append(taskDescription);
       taskCard.append(removeButton);
-    
-      $('#todo-cards').append(taskCard);
+
+      console.log(task[i].parent);
+
+      $(task[i].parent).append(taskCard);
     
       $('.tCard').css({
     
@@ -97,6 +99,7 @@ function handleAddTask(event){
     taskDetail.title = $('#task-title').val();
     taskDetail.date = $('#datepicker').val();
     taskDetail.description = $('#exampleFormControlTextarea1').val();
+    taskDetail.parent = '#todo-cards';
     taskDetail.taskID = generateTaskId();
 
     let matchTaskID = taskDetail.taskID;
@@ -212,10 +215,47 @@ $( function() {
   });
 } );
 
+
+$(function(){
+
+  $('.tCard').sortable({
+
+
+
+}).disableSelection();
+
+});
+
+
 $( function() {
   $( "#todo-cards, #in-progress-cards, #done-cards" ).sortable({
-    connectWith: ".card-sort"
+    connectWith: ".card-sort", 
+
+    start: function(event, ui) {
+      // Get the ID of the element being dragged
+    },
+    sort: function(event, ui) {
+      // Optionally handle the drag event
+
+    },
+    change: function(event, ui){
+
+    },
+    stop: function(event, ui) {
+
+      let elementId = ui.item.parent().attr('id');
+      let card_id = ui.item.attr('id');
+      ui.item.parent = elementId;
+
+      // 'this' refers to the DOM element involved in the event
+      console.log("The ID of the dragged element is:", ui.item.parent);
+      console.log(taskList[0].taskID, " ", card_id);
+
+    }
+
   }).disableSelection();
+});
+
 } );
 
 
@@ -226,7 +266,4 @@ clearButton.addEventListener('click', function(){
     alert('local storage clear');
 });
 
-
-
-});
 
