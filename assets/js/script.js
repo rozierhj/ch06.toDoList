@@ -169,7 +169,10 @@ $(document).ready(function () {
   $( "#todo-cards, #in-progress-cards, #done-cards" ).css({'z-index':1,'height':'100%'});
     //modal date picker function
     $( function() {
-        $( "#datepicker" ).datepicker();
+        $( "#datepicker" ).datepicker({
+          changeMonth: true,
+          changeYear: true
+        });
       } );
       //modalSpinner();
       //click on submit button on modal to add a task
@@ -193,9 +196,14 @@ $(document).ready(function () {
          alert(message);
          //console.log(cardID);
       });
-
       $('.btn-success').click(function(event){
-        modalSpinner();
+        modalCircle();
+      });
+      $('#exampleFormControlTextarea1').on('input',function(){
+          modalSpinner();
+          $(this).css('height','auto');
+          let newHeight =$(this).prop('scrollHeight') - 3;
+          $(this).css('height',newHeight+'px');
       });
 
 //revert
@@ -259,7 +267,7 @@ $( function(){
   });
 
   $(' #task-title,  #datepicker ').css({
-    'width':'80%',
+    'width':'90%',
     'margin-left':'5px',
     'margin-right':'5px',
     'height':'40px'
@@ -274,7 +282,7 @@ $( function(){
     'width':'100%',
   });
   $(' #exampleFormControlTextarea1').css({
-    'width':'100%',
+    'width':'95%',
     'margin-left':'10px',
     'margin-right':'5px',
   });
@@ -371,22 +379,8 @@ $('.card-header.bg-white').css({
 
 }
 
-
-
-const clearButton = document.getElementById('clear-button');
-clearButton.addEventListener('click', function(){
-    localStorage.clear();
-    console.log('Cleared Local Storage');
-    alert('local storage clear');
-});
-
 function modalSpinner(){
 
-  $('taskText').css({
-
-    'position':'relative',
-
-  });
   let spinnyHouse = $('<span></span>');
   let spinnyDiv = $('<div></div>');
   let icon = $('<i></i>');
@@ -398,8 +392,16 @@ function modalSpinner(){
 
   spinnyHouse.addClass('badge rounded-pill bg-primary');
   //spinnyHouse.text('i am here');
+
   // $(spinny) = ('');
   // $(cloud) = ('');
+  $('#taskText').css({
+    'position':'relative',
+  });
+  $('#exampleFormControlTextarea1').css({
+    'padding-bottom':'40px',
+    'box-sizing':'border-box',
+  });
   $(spinny).css({
     'right':'0',
     'margin-left':'5px',
@@ -412,17 +414,38 @@ function modalSpinner(){
     'align-items':'center',
     'justify-content':'right',
     'position':'absolute',
-    'bottom':'90px',
-    'right':'40px',
-    'width':'50px',
-    'height':'30px',
-    'background-color':'purple',
+    'bottom':'5px',
+    'right':'35px',
+    'width':'55px',
+    'height':'35px',
   });
+  $('#taskText .mdl-cl').remove();
   $(spinnyDiv).append(spinny);
   $(spinnyHouse).append(icon);
   $(spinnyHouse).append(spinnyDiv);
   $('#taskText').append(spinnyHouse);
 
 
+}
+function modalCircle(){
+  $('#taskText').css({
+    'position':'relative',
+  });
+  let modalCrcl = $('<div></div>');
+  modalCrcl.addClass('.mdl-cl');
+  $(modalCrcl).css({
+    'padding':'0',
+    'display':'flex',
+    'align-items':'center',
+    'justify-content':'right',
+    'position':'absolute',
+    'bottom':'10px',
+    'right':'30px',
+    'width':'10px',
+    'height':'10px',
+    'background-color':'blue',
+    'border-radius':'50%',
+  });
+  $('#taskText').append(modalCrcl);
 }
 
