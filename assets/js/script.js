@@ -200,10 +200,13 @@ $(document).ready(function () {
         modalCircle();
       });
       $('#exampleFormControlTextarea1').on('input',function(){
-          modalSpinner();
+        modalSpinner_Spin()
           $(this).css('height','auto');
           let newHeight =$(this).prop('scrollHeight') - 3;
           $(this).css('height',newHeight+'px');
+      });
+      $('#task-title').on('input',function(){
+        modalSpinner_noSpin();
       });
 
 //revert
@@ -378,8 +381,7 @@ $('.card-header.bg-white').css({
 
 
 }
-
-function modalSpinner(){
+function modalSpinner_noSpin(){
 
   let spinnyHouse = $('<span></span>');
   let spinnyDiv = $('<div></div>');
@@ -387,8 +389,12 @@ function modalSpinner(){
   icon.addClass('fas fa-wifi');
   spinnyDiv.addClass('spinner-border spinner-border-sm');
   $(spinnyDiv).attr('role','status');
+  $(spinnyDiv).attr('id', 'spinny');
   let spinny = $('<span></span>');
   spinny.addClass('visually-hidden');
+  $(spinnyDiv).css({
+    'animation':'none',
+  });
 
   spinnyHouse.addClass('badge rounded-pill bg-primary');
   //spinnyHouse.text('i am here');
@@ -419,20 +425,21 @@ function modalSpinner(){
     'width':'55px',
     'height':'35px',
   });
-  $('#taskText .mdl-cl').remove();
+  $('#mdl-crl').css({
+    'display':'none',
+  });
+  $('#mdl-crl').remove();
   $(spinnyDiv).append(spinny);
   $(spinnyHouse).append(icon);
   $(spinnyHouse).append(spinnyDiv);
   $('#taskText').append(spinnyHouse);
-
-
 }
 function modalCircle(){
   $('#taskText').css({
     'position':'relative',
   });
   let modalCrcl = $('<div></div>');
-  modalCrcl.addClass('.mdl-cl');
+  modalCrcl.attr('id','mdl-crl');
   $(modalCrcl).css({
     'padding':'0',
     'display':'flex',
@@ -448,4 +455,52 @@ function modalCircle(){
   });
   $('#taskText').append(modalCrcl);
 }
+function modalSpinner_Spin(){
 
+  let spinnyHouse = $('<span></span>');
+  let spinnyDiv = $('<div></div>');
+  let icon = $('<i></i>');
+  icon.addClass('fas fa-wifi');
+  spinnyDiv.addClass('spinner-border spinner-border-sm');
+  $(spinnyDiv).attr('role','status');
+  $(spinnyDiv).attr('id', 'spinny');
+  let spinny = $('<span></span>');
+  spinny.addClass('visually-hidden');
+  spinnyHouse.addClass('badge rounded-pill bg-primary');
+  //spinnyHouse.text('i am here');
+
+  // $(spinny) = ('');
+  // $(cloud) = ('');
+  $('#taskText').css({
+    'position':'relative',
+  });
+  $('#exampleFormControlTextarea1').css({
+    'padding-bottom':'40px',
+    'box-sizing':'border-box',
+  });
+  $(spinny).css({
+    'right':'0',
+    'margin-left':'5px',
+  });
+  $(icon).css({
+    'margin-right':'5px',
+  });
+  $(spinnyHouse).css({
+    'display':'flex',
+    'align-items':'center',
+    'justify-content':'right',
+    'position':'absolute',
+    'bottom':'5px',
+    'right':'35px',
+    'width':'55px',
+    'height':'35px',
+  });
+  $('#mdl-crl').css({
+    'display':'none',
+  });
+  $('#mdl-crl').remove();
+  $(spinnyDiv).append(spinny);
+  $(spinnyHouse).append(icon);
+  $(spinnyHouse).append(spinnyDiv);
+  $('#taskText').append(spinnyHouse);
+}
