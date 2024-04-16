@@ -286,6 +286,7 @@ function cardStyle(card){
   let formatDate = dayjs(card.date).format('YYYY-MM-DD');
   let headerFooter = '#'+String(card.taskID) + ' .card-header, ' + '#'+String(card.taskID) + ' .card-footer';
   let cardBody = '#'+String(card.taskID) + ' .card-body';
+  let cardButton = '#'+String(card.taskID)+' .remove-button';
 
   if(dayjs().isAfter(dayjs(formatDate),'day') === true && card.parent !== 'done-cards' ){
 
@@ -297,7 +298,7 @@ function cardStyle(card){
     $(cardBody).css({
       'background-color':'rgb(255,204,204)',
     });
-    $('.remove-button').css({
+    $(cardButton).css({
         'background-color':'red',
         'color':'white'
     });
@@ -312,6 +313,9 @@ function cardStyle(card){
     $(cardBody).css({
       'background-color':'rgb(255,255,153)',
     });
+    $(cardButton).css({
+      'background-color':'yellow',
+  });
 
 
 }
@@ -322,6 +326,7 @@ else{
     $(cardBody).css({
       'background-color':'white',
     });
+    $(cardButton).attr('style','');
 
 }
 $('.tCard').css({
@@ -368,4 +373,13 @@ clearButton.addEventListener('click', function(){
     alert('local storage clear');
 });
 
+function yellowCard(cardID){
+
+    $(headerFooterYellow).css({
+
+
+
+    });
+
+}
 
