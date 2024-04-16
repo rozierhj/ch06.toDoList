@@ -166,7 +166,9 @@ localStorage.setItem('tasks', JSON.stringify(taskList));
 //were gathering data from the modal here
 $(document).ready(function () {
 
+  //set task cards o be on top of to do, in progress and done columns
   $( "#todo-cards, #in-progress-cards, #done-cards" ).css({'z-index':1,'height':'100%'});
+
     //modal date picker function
     $( function() {
         $( "#datepicker" ).datepicker({
@@ -174,8 +176,8 @@ $(document).ready(function () {
           changeYear: true
         });
       } );
-      //modalSpinner();
-      //click on submit button on modal to add a task
+
+      //click event on the modal that creates the task and its card
       $('#add-task').click(function(event){
         event.preventDefault();
         //function collects data from modal input fields
@@ -183,6 +185,7 @@ $(document).ready(function () {
        //function takes data from modal inputs and creates a task card
         createTaskCard(answer);
       });
+
       //listen for click on parent todo-cards to delete the child task card
       $('.card-body').on('click', '#nuke', function(event){
          //handleDeleteTask(event);
@@ -193,18 +196,23 @@ $(document).ready(function () {
          cardID = '#'+cardID;
          let message = cardID;
          $(cardID).remove();
-         alert(message);
          //console.log(cardID);
       });
+
+      //clicking on the Add Task button to open up the modal
       $('.btn-success').click(function(event){
         modalCircle();
       });
+
+      //event when user begins to enter data into the task description field of the modal
       $('#exampleFormControlTextarea1').on('input',function(){
         modalSpinner_Spin()
+        //code to save space for the icon so that text does not go under it
           $(this).css('height','auto');
           let newHeight =$(this).prop('scrollHeight') - 3;
           $(this).css('height',newHeight+'px');
       });
+      //user entering the title of the task in the modal
       $('#task-title').on('input',function(){
         modalSpinner_noSpin();
       });
@@ -212,7 +220,8 @@ $(document).ready(function () {
 //revert
 renderTaskList();
 
-$( function() {
+//giving the to do, in progress and done columns the droppable attribute
+$( function laneDrop() {
   $('#todo-cards').addClass('card-sort');
   $('#in-progress-cards').addClass('card-sort');
   $('#done-cards').addClass('card-sort');
@@ -233,8 +242,8 @@ $( function() {
   });
 } );
 
-
-$( function() {
+//linking columns the cards are dropped into with the sortable feature
+$( function laneSort() {
   $( "#todo-cards, #in-progress-cards, #done-cards" ).sortable({
     connectWith: ".card-sort", 
 
@@ -258,7 +267,7 @@ $( function() {
 });
 
 //modal style
-$( function(){
+$( function modalStyle(){
 
   $('#form-title, #form-date ').css({
     'width':'80%',
@@ -294,16 +303,24 @@ $( function(){
 
 } );
 
+//styles for the task cards and controlls fot their styles based on their date and the column that they are in
 function cardStyle(card){
 
+  //set cards so that they lay on top of the to do, in progress and done columns
   $( "#todo-cards #in-progress-cards #done-cards" ).css({'z-index':1,'height':'100%'});
-  let column = card.parent;
-  let cardDate = card.date;
+
+  // let column = card.parent;
+  // let cardDate = card.date;
+
+  //preparing date for card calculations
   let formatDate = dayjs(card.date).format('YYYY-MM-DD');
+
+  //creating unique css selector combonations using element attributes and the unique numer-id of each card
   let headerFooter = '#'+String(card.taskID) + ' .card-header, ' + '#'+String(card.taskID) + ' .card-footer';
   let cardBody = '#'+String(card.taskID) + ' .card-body';
   let cardButton = '#'+String(card.taskID)+' .remove-button';
 
+  //style for cards that are for late tasks and note completed
   if(dayjs().isAfter(dayjs(formatDate),'day') === true && card.parent !== 'done-cards' ){
 
     $(headerFooter).css({
@@ -320,6 +337,7 @@ function cardStyle(card){
     });
 
   }
+  //style for cards for task due today and not completed
   else if(dayjs().isSame(dayjs(formatDate),'day') === true && card.parent !== 'done-cards' ){
 
     $(headerFooter).css({
@@ -335,6 +353,7 @@ function cardStyle(card){
 
 
 }
+//reset cards to default styles when put into done column
 else{
  
     $(headerFooter).attr('style','');
@@ -345,29 +364,19 @@ else{
     $(cardButton).attr('style','');
 
 }
+
+//card styles
 $('.tCard').css({
     
   'margin':'15px'
   
 });
-
 $('.card-body').css({
   'position':'relative',
   'display':'flex',
   'flex-direction':'column',
   'justify-content':'center'
 });
-
-$('.remove-button').css({
-
-  'position':'relative',
-  'left':'50%',
-  'transform':'translate(-50%, -50%)',
-  'top':'25px',
-  // 'margin-top':'30px',
-  'width':'100px'  
-});
-
 $('.card-header').css({
   'height':'40px',
   'font-weight':'bold',
@@ -378,9 +387,18 @@ $('.card-header.bg-white').css({
   'height':'55px'
 });
 
+//style for the remove button on the card
+$('.remove-button').css({
 
-
+  'position':'relative',
+  'left':'50%',
+  'transform':'translate(-50%, -50%)',
+  'top':'25px',
+  // 'margin-top':'30px',
+  'width':'100px'  
+});
 }
+//an icon that is being placed in the modal task description input and has a spinner that is not spinning
 function modalSpinner_noSpin(){
 
   let spinnyHouse = $('<span></span>');
@@ -434,6 +452,7 @@ function modalSpinner_noSpin(){
   $(spinnyHouse).append(spinnyDiv);
   $('#taskText').append(spinnyHouse);
 }
+//circle icon that is placed in the modal task description input field at the beginning
 function modalCircle(){
   $('#taskText').css({
     'position':'relative',
@@ -455,6 +474,7 @@ function modalCircle(){
   });
   $('#taskText').append(modalCrcl);
 }
+//same icon placed inside the task description input field of the modal but its spinner is spinning
 function modalSpinner_Spin(){
 
   let spinnyHouse = $('<span></span>');
