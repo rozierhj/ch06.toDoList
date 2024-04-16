@@ -13,6 +13,8 @@ function generateTaskId() {
 // Todo: create a function to create a task card
 function createTaskCard(task) {
 
+  //dynamically creating the html elements of a task card and populating them with the inputs from the modal fields
+  //append the individual html elements to one task card
 let taskCard = $('<div></div>');
 taskCard.addClass('tCard ui-widget-content ui-state-default card text-center');
 taskCard.attr('id', String(task[i].taskID));
@@ -69,10 +71,14 @@ if(renderList !== null){
 
   for(i = 0; i < renderList.length; i++){
 
+      //cards being created
       createTaskCard(renderList);
+      
+      //cards prepared to be placed above columns they will be dragged over
       $('.tCard').css('z-index',100);
+
+      //cards given style based on column they are in
       cardStyle(renderList[i]);
-     // $('.tCard').sortable();
   }
 }
 
@@ -87,6 +93,7 @@ function handleAddTask(event){
     let taskArray =[];
     let idArray = [];
 
+    //gathering from the fields in the modal and adding them to an object named taskDetail
     let taskDetail = {};
     taskDetail.title = $('#task-title').val();
     taskDetail.date = $('#datepicker').val();
@@ -96,6 +103,7 @@ function handleAddTask(event){
 
     let matchTaskID = taskDetail.taskID;
 
+      //add new task to the existing task list and pu it in local storage. do this for both the task array in local storage and the task id array in local storage
       if(taskList !== null){
         taskList.push(taskDetail);
         nextId.push(matchTaskID);
@@ -115,20 +123,20 @@ function handleAddTask(event){
 }
 
 // Todo: create a function to handle deleting a task
-//function handleDeleteTask(event)
 function handleDeleteTask(event,cardID){
 
+    //looping through all tasks and finding index of the one to be deleted based on its id
     let taskIndex = 0;
     for(let i =0; i < taskList.length; i++){
       if(String(taskList[i].taskID) === String(cardID)){
         taskIndex = i;
-        // console.log('we are in');
       }
     }
+    //get rid of that task where ever it is in array and load updated task array into local storage
     taskList.splice(taskIndex,1);
-    // localStorage.removeItem('tasks');
     localStorage.setItem('tasks', JSON.stringify(taskList));
 
+    //repeat the task with the array of task id numbers
     let nextidIndex = 0;
     for(let i =0; i < nextId.length; i++){
       if(String(nextId[i]) === String(cardID)){
@@ -137,25 +145,21 @@ function handleDeleteTask(event,cardID){
       }
     }
     nextId.splice(nextidIndex,1);
-    // localStorage.removeItem('nextId');
     localStorage.setItem('nextId', JSON.stringify(nextId));
    
 }
 
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
-//update state
 
+//grapping the parent column values of the card
 let elementId = ui.item.parent().attr('id');
 let card_id = ui.item.attr('id');
 ui.item.parent = elementId;
-
- console.log(elementId);
 let taskMoved = taskList.find(taskDetail => String(taskDetail.taskID) === card_id);
-
-//turn cards colors
-
 taskMoved.parent = elementId;
+
+//give new style to card based on its parent column and record it into local storage
 cardStyle(taskMoved);
 localStorage.setItem('tasks', JSON.stringify(taskList));
 
