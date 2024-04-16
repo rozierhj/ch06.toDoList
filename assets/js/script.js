@@ -171,6 +171,7 @@ $(document).ready(function () {
     $( function() {
         $( "#datepicker" ).datepicker();
       } );
+      //modalSpinner();
       //click on submit button on modal to add a task
       $('#add-task').click(function(event){
         event.preventDefault();
@@ -191,6 +192,10 @@ $(document).ready(function () {
          $(cardID).remove();
          alert(message);
          //console.log(cardID);
+      });
+
+      $('.btn-success').click(function(event){
+        modalSpinner();
       });
 
 //revert
@@ -366,6 +371,8 @@ $('.card-header.bg-white').css({
 
 }
 
+
+
 const clearButton = document.getElementById('clear-button');
 clearButton.addEventListener('click', function(){
     localStorage.clear();
@@ -373,13 +380,49 @@ clearButton.addEventListener('click', function(){
     alert('local storage clear');
 });
 
-function yellowCard(cardID){
+function modalSpinner(){
 
-    $(headerFooterYellow).css({
+  $('taskText').css({
 
+    'position':'relative',
 
+  });
+  let spinnyHouse = $('<span></span>');
+  let spinnyDiv = $('<div></div>');
+  let icon = $('<i></i>');
+  icon.addClass('fas fa-wifi');
+  spinnyDiv.addClass('spinner-border spinner-border-sm');
+  $(spinnyDiv).attr('role','status');
+  let spinny = $('<span></span>');
+  spinny.addClass('visually-hidden');
 
-    });
+  spinnyHouse.addClass('badge rounded-pill bg-primary');
+  //spinnyHouse.text('i am here');
+  // $(spinny) = ('');
+  // $(cloud) = ('');
+  $(spinny).css({
+    'right':'0',
+    'margin-left':'5px',
+  });
+  $(icon).css({
+    'margin-right':'5px',
+  });
+  $(spinnyHouse).css({
+    'display':'flex',
+    'align-items':'center',
+    'justify-content':'right',
+    'position':'absolute',
+    'bottom':'90px',
+    'right':'40px',
+    'width':'50px',
+    'height':'30px',
+    'background-color':'purple',
+  });
+  $(spinnyDiv).append(spinny);
+  $(spinnyHouse).append(icon);
+  $(spinnyHouse).append(spinnyDiv);
+  $('#taskText').append(spinnyHouse);
+
 
 }
 
